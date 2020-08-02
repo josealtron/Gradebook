@@ -1,0 +1,23 @@
+GBOOK_NAME = example 
+GBOOK_CLASS_AVG = 100
+GR_SYS = {"A":(90, 100), "B":(80, 99.99), "C": (75, 75.99), "D":(70, 74.99)
+"F": (0, 69.99)}
+
+****
+CAT_NAME = HW
+CAT_AVG = 100
+CAT_GRADES = {"HW1":100, "HW2":100}
+CAT_MAN_AVG = F
+CAT_WEIGHT = 20
+****
+CAT_NAME = Test
+CAT_AVG = 100
+CAT_GRADES = {"Test 1":100, "Test 2":100}
+CAT_MAN_AVG = F
+CAT_WEIGHT=50
+****
+CAT_NAME = Quiz
+CAT_AVG = 100
+CAT_GRADES = {"Quiz 1": 100, "Quiz 2" : 100}
+CAT_MAN_AVG = F
+CAT_WEIGHT = 30

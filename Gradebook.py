@@ -108,8 +108,8 @@ class GrCat(object):
         """
         for grade in self.grades:
             self.print_assignment_info(grade)
-            print('\n')
-    
+            print()
+
     # --------------------------------------------------------------------------
     # Adjust data attributes
     def rename(self, new_name):
@@ -159,7 +159,7 @@ class GrCat(object):
             grade - a float or int higher than or equal to 0
             date - optional parameter, a tuple containing month, day, year (all 
             ints). Month must be between 1 and 12, day must be between 0 and 31.
-            
+            TODO: What happens if the grade is already there?
         """
         try:
             # Check for valid inputs
@@ -256,8 +256,8 @@ class Gradebook(object):
         if Gr_sys is True:
             self.Gr_sys = {}
         else:
-            self.Gr_sys = {"a":(90, 100), "b":(80, 89.99), "c":(75, 79.99),
-                           "d":(70, 74.99), "f":(0, 69.99)}
+            self.Gr_sys = {"A":(90, 100), "B":(80, 89.99), "C":(75, 79.99),
+                           "D":(70, 74.99), "F":(0, 69.99)}
 
     def __str__(self):
         cats = self.Cats.keys()
@@ -266,6 +266,13 @@ class Gradebook(object):
 
     # ----------------------------------------------------------------------
     # Getters and printers
+
+    def get_letter_grade(self):
+        if self.Gr_sys:
+            for letter in self.Gr_sys:
+                if in_range(self.Class_avg, self.Gr_sys[letter][0], self.Gr_sys[letter][1]):
+                    return letter
+
     def get_cats(self):
         """
         Returns a deep copy of the category dictionary.
@@ -291,7 +298,7 @@ class Gradebook(object):
         Prints all category averages and the final class average.
         """
         for cat in self.Cats.values():
-            print("Category " + cat[0].name + ", Avg: " + str(cat[2]))
+            print("Category " + cat[0].name + ", Avg: " + str(cat[1]))
         print ("Class avg: " + str(self.Class_avg))
 
     # ----------------------------------------------------------------------
@@ -366,13 +373,14 @@ class Gradebook(object):
         else:
             self.valid_weight = False
 
-    def project(self, Cat):
+    def project(self, Cat, assignment = None):
         """
         Given a category contained within the gradebook's category dictionary,
         projects the maximum and minimum class average after a future assignment is
         added to the category.
         Arguments:
             Cat - category that the projected assignment will fall under
+            Assignment - parameter to allow for projection of a specific grade's impact on the class average.
         """
         try:
             name = Cat.get_name()
@@ -380,13 +388,17 @@ class Gradebook(object):
             # get the weight of the category
             w = self.Cats[name][2]
 
-            for i in (0, 100):
+            for i in (0, 100, assignment):
+                if i is None:
+                    continue
                 Cat.add_grade('temp', i)
                 self.add_cat(Cat, w)
                 if i == 0:
                     print("Minimum possible new class average:" + str(self.Class_avg))
-                else:
+                elif i == 100:
                     print("Maximum possible new class average:" + str(self.Class_avg))
+                else:
+                    print("Average after an entry with grade " + str(i) + ":" + str(self.Class_avg))
                 Cat.remove_grade('temp')
             self.add_cat(Cat, w)
         except AssertionError:
@@ -429,3 +441,18 @@ def in_range(test, minimum, maximum):
         if test >= minimum:
             return True
     return False
+
+# example Gbook
+gbook = Gradebook()
+hw = GrCat('HW', parent=gbook, w=20)
+quiz = GrCat('Quiz', parent=gbook, w=30)
+test = GrCat('Test', parent=gbook, w=50)
+
+for s in ("HW1", "HW2"):
+    hw.add_grade(s, 100)
+for s in ("Quiz 1", "Quiz 2"):
+    quiz.add_grade(s, 100)
+for s in ("Test 1", "Test 2"):
+    test.add_grade(s, 100)
+
+
