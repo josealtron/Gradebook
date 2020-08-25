@@ -192,12 +192,12 @@ class Gradebook(object):
         except AssertionError:
             print('Gradebook.project: Cat not in gradebook.')
 
-            
+        
 # ------------------------------------------------------------------------------
 # other functions
 def is_num(test):
     """Returns True if given value is an int or float, false otherwise.
-    
+
     Arguments:
         test: any value
     """
@@ -224,23 +224,10 @@ def in_range(test, minimum, maximum):
     if maximum < minimum:
         print("in_range: min must be less than or equal to max.")
         return False
-    
+
     if test <= maximum:
         if test >= minimum:
             return True
     return False
-
-# example Gbook
-gbook = Gradebook()
-hw = GrCat('HW', parent=gbook, w=20)
-quiz = GrCat('Quiz', parent=gbook, w=30)
-test = GrCat('Test', parent=gbook, w=50)
-
-for s in ("HW1", "HW2"):
-    hw.add_grade(s, 100)
-for s in ("Quiz 1", "Quiz 2"):
-    quiz.add_grade(s, 100)
-for s in ("Test 1", "Test 2"):
-    test.add_grade(s, 100)
 
 
